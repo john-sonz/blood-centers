@@ -11,6 +11,6 @@ COPY . .
 
 EXPOSE 4000
 
-RUN npm run build
+USER root
 
 CMD npm run dev

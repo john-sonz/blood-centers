@@ -22,7 +22,7 @@ const main = async () => {
     res.json({ ok: "ok" });
   });
 
-  app.listen(PORT, () => console.log(`Server started at portt ${PORT}`));
+  app.listen(PORT, () => console.log(`Server started at port ${PORT}`));
 };
 
 main().catch(console.error);

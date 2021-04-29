@@ -5,8 +5,8 @@ module.exports = {
   username: process.env.POSTGRES_USER || "root",
   password: process.env.POSTGRES_PASSWORD || "root",
   database: process.env.POSTGRES_DB || "blood_centers",
-  entities: ["src/entities/*.ts"],
-  migrations: ["src/migrations/*.ts"],
+  entities: ["dist/entities/*.js"],
+  migrations: ["dist/migrations/*.js"],
   synchronize: false,
   cli: {
     entitiesDir: "src/entities",

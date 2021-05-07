@@ -4,7 +4,7 @@
 
 ### Autorzy
 
-- Barbara Kulawska ([@ClaraOswald1507](https://github.com/ClaraOswald1507))
+- Barbara Kulawska ([@bkulawska](https://github.com/bkulawska))
 - Kinga Sąkól ([@kingasakol](https://github.com/kingasakol))
 - Jan Zborowski ([@john-sonz](https://github.com/john-sonz))
 

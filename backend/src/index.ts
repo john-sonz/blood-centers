@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 
+import { SESSION_COOKIE } from "./consts";
 import connectPg from "connect-pg-simple";
 import cors from "cors";
 import { createConnection } from "typeorm";
@@ -22,7 +23,15 @@ const pgPool = new pg.Pool({
 const pgSession = connectPg(session);
 
 const main = async () => {
-  await createConnection();
+  const connection = await createConnection();
+  console.log("Running pending migrations...");
+  try {
+    const migrations = await connection.runMigrations();
+    migrations.map((migration) => console.log(`${migration.name} - applied`));
+  } catch (error) {
+    console.error("Error when running migrations:");
+    console.error(error);
+  }
 
   app.use(express.json());
   app.use(helmet());
@@ -30,7 +39,7 @@ const main = async () => {
   app.use(cors());
   app.use(
     session({
-      name: "session_cookie",
+      name: SESSION_COOKIE,
       store: new pgSession({
         pool: pgPool,
       }),

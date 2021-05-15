@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const eventRepo = getRepository(Event);
   const event = await eventRepo.findOne(req.params.id);
-  if (!event) return res.status(404).json({ msg: "event not found" });
+  if (!event) return res.status(404).json({ msg: "Event not found" });
 
   eventRepo.merge(event, req.body);
   const results = await eventRepo.save(event);

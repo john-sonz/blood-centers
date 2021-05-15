@@ -18,6 +18,5 @@ export class Receipt {
     @Column()
     ammount: number;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @ManyToOne (_type => Donation, donation => donation.id) donation: Donation;
+    @ManyToOne (() => Donation, donation => donation.id) donation: Donation;
 }

@@ -1,2 +1,10 @@
 [0m2021.05.15 11:26:12 INFO  Started: Metals version 0.10.2 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client vscode 1.56.2.[0m
 [0m2021.05.15 11:26:15 INFO  time: initialize in 3.08s[0m
+[0m2021.05.15 11:26:19 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.15 11:26:19 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.15 12:25:07 INFO  shutting down Metals[0m
+[0m2021.05.15 19:50:11 INFO  Started: Metals version 0.10.2 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client vscode 1.56.2.[0m
+[0m2021.05.15 19:50:15 INFO  time: initialize in 4.73s[0m
+[0m2021.05.15 19:50:19 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.15 19:50:19 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.15 20:25:36 INFO  shutting down Metals[0m

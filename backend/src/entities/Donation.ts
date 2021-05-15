@@ -10,7 +10,7 @@ export class Donation {
     donatorId: number;
 
     @Column({ type: Date })
-    date: Date;
+    date!: Date;
 
     @Column()
     amountMl: number;
@@ -18,6 +18,5 @@ export class Donation {
     @Column()
     availableMl: number;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @OneToMany(_type => Receipt,  receipt => receipt.donationId) receipts: Receipt[];
+    @OneToMany(() => Receipt,  receipt => receipt.donationId) receipts: Receipt[];
 }

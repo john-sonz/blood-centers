@@ -12,7 +12,7 @@ export class User {
   @Length(11)
   pesel!: string;
 
-  @Column()
+  @Column({ select: false })
   passwordHash!: string;
 
   @Column()
@@ -22,4 +22,7 @@ export class User {
   @Column()
   @Length(2, 255)
   lastName!: string;
+
+  @Column({ default: false })
+  isAdmin: boolean;
 }

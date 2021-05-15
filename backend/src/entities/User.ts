@@ -1,5 +1,13 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { IsNumberString, Length } from "class-validator";
+
+import { Message } from "./Message";
 
 @Entity({ name: "users" })
 export class User {
@@ -25,4 +33,10 @@ export class User {
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  @OneToMany(() => Message, (msg) => msg.sender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, (msg) => msg.recipient)
+  receivedMessages: Message[];
 }

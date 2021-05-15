@@ -6,6 +6,7 @@ import { User } from "../entities/User";
 import argon2 from "argon2";
 import isAuthorized from "../middleware/isAuthorized";
 import isUnauthorized from "../middleware/isUnauthorized";
+import { validate } from "class-validator";
 
 const router = Router();
 
@@ -53,10 +54,13 @@ router.post("/register", isUnauthorized(), async (req, res) => {
   try {
     const repo = getRepository(User);
     const user = repo.create(req.body as DeepPartial<User>);
+
+    const errors = await validate(user);
+    if (errors.length > 0) return res.status(400).json({ errors });
+
     user.passwordHash = await argon2.hash(req.body.password);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: hash, ...result } = await repo.save(user);
-
     req.session.userId = result.id;
 
     return res.json({ user: result });
@@ -72,7 +76,7 @@ router.post("/register", isUnauthorized(), async (req, res) => {
 router.post("/logout", isAuthorized(), async (req, res) => {
   if (!req.session.userId) return res.send(400);
 
-  const status = await new Promise((resolve) => {
+  const status = await new Promise((resolve: (status: number) => void) => {
     req.session.destroy((err) => {
       if (err) {
         console.warn(err);
@@ -83,7 +87,7 @@ router.post("/logout", isAuthorized(), async (req, res) => {
     });
   });
 
-  return res.send(status);
+  return res.sendStatus(status);
 });
 
 export default router;

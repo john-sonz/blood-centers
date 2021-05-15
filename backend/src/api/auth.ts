@@ -53,7 +53,10 @@ router.post("/login", isUnauthorized(), async (req, res) => {
 router.post("/register", isUnauthorized(), async (req, res) => {
   try {
     const repo = getRepository(User);
-    const user = repo.create(req.body as DeepPartial<User>);
+    const user = repo.create({
+      ...req.body,
+      isAdmin: false,
+    } as DeepPartial<User>);
 
     const errors = await validate(user);
     if (errors.length > 0) return res.status(400).json({ errors });
@@ -69,7 +72,7 @@ router.post("/register", isUnauthorized(), async (req, res) => {
       return res.status(400).json({ error: "user already exists" });
 
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 

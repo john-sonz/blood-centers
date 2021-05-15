@@ -1,24 +1,24 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Length } from "class-validator";
 
-@Entity()
+@Entity({ name: "events" })
 export class Event {
-  @PrimaryGeneratedColumn()
-  id: number; 
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   @Length(2, 255)
-  city: string;
+  city!: string;
 
   @Column()
   @Length(2, 255)
-  adress: string;
+  adress!: string;
 
   @Column()
   @Length(2, 255)
   description: string;
 
   @Column({ type: 'timestamptz' })
-  date: Date;
+  date!: Date;
 
 }

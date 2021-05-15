@@ -1,8 +1,24 @@
 import { Router } from "express";
 import { Privilege } from "../entities/Privilege";
-import { getRepository } from "typeorm";
+import { Donation } from "../entities/Donation";
+import { getRepository, LessThanOrEqual } from "typeorm";
 
 const router = Router();
+
+router.get("/:userId", async (req, res) => {
+  const donationsRepo = getRepository(Donation);
+  const user_donations = await donationsRepo.find({donatorId: parseInt(req.params.userId)});
+
+  let blood_sum = 0
+
+  for (const donation of user_donations){
+    blood_sum+=donation.amountMl;
+  }
+
+  const privilegeRepo = getRepository(Privilege);
+  const user_privileges = await privilegeRepo.find({ min_donated_amount_ml: LessThanOrEqual(blood_sum)});
+  return res.json(user_privileges);
+});
 
 router.get("/", async (_req, res) => {
   const privilegeRepo = getRepository(Privilege);

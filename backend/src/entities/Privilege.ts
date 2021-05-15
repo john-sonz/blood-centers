@@ -1,16 +1,16 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Length } from "class-validator";
 
-@Entity()
+@Entity({ name: "privileges" })
 export class Privilege {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   @Length(2, 255)
-  description: string;
+  description!: string;
 
   @Column()
-  min_donated_amount_ml: number;
+  min_donated_amount_ml!: number;
 
 }

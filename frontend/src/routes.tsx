@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Redirect, Route, Switch } from "react-router";
 
+import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
 import SplashScreen from "./components/SplashScreen";
 
@@ -55,8 +56,8 @@ export function renderRoutes(routes: IRoute[] = []): ReactElement {
 export const routesDict = {
   login: "/login",
   register: "/register",
-  app: {
-    path: "/app",
+  main: {
+    path: "/main",
   },
 };
 
@@ -72,8 +73,13 @@ export const routes: IRoute[] = [
     component: lazy(() => import("./views/auth/Register")),
   },
   {
+    path: routesDict.main.path,
+    guard: AuthGuard,
+    component: lazy(() => import("./views/main/MainView")),
+  },
+  {
     exact: false,
     path: "*",
-    component: (): ReactElement => <Redirect to={routesDict.login} />,
+    component: (): ReactElement => <Redirect to={routesDict.main.path} />,
   },
 ];

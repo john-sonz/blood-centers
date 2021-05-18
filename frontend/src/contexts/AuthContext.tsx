@@ -3,10 +3,13 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useReducer,
 } from "react";
 
+import SplashScreen from "../components/SplashScreen";
 import { User } from "../types/user";
+import axios from "axios";
 
 interface AuthContextState {
   user?: User | null;
@@ -81,19 +84,40 @@ export default function AuthContextProvider({
 }: AuthContextProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const login = useCallback(async () => {
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: {
-          firstName: "XD",
-          lastName: "DD",
-          pesel: "107502",
-        },
-      },
+  const login = useCallback(async (pesel: string, password: string) => {
+    const result = await axios.post("/auth/login", {
+      pesel,
+      password,
     });
+    const user: User = result.data;
+
+    dispatch({ type: "LOGIN", payload: { user } });
   }, []);
-  const logout = useCallback(async () => {}, []);
+  const logout = useCallback(async () => {
+    await axios.post("/auth/logout");
+    dispatch({ type: "LOGOUT" });
+  }, []);
+
+  useEffect(() => {
+    async function initialize() {
+      try {
+        const result = await axios.get("/me");
+        const user: User = result.data;
+        dispatch({
+          type: "INITIALIZE",
+          payload: { isAuthenticated: true, user },
+        });
+      } catch (error) {
+        dispatch({
+          type: "INITIALIZE",
+          payload: { isAuthenticated: false },
+        });
+      }
+    }
+    initialize();
+  }, []);
+
+  if (!state.isInitialized) return <SplashScreen />;
 
   return (
     <AuthContext.Provider
@@ -102,7 +126,9 @@ export default function AuthContextProvider({
         login,
         logout,
       }}
-    ></AuthContext.Provider>
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
 

@@ -11,7 +11,7 @@ interface GuestGuardProps {
 export default function GuestGuard({ children }: GuestGuardProps) {
   const { isAuthenticated } = useAuthContext();
 
-  if (isAuthenticated) return <Redirect to={routesDict.app.path}></Redirect>;
+  if (isAuthenticated) return <Redirect to={routesDict.main.path}></Redirect>;
 
   return <>{children}</>;
 }

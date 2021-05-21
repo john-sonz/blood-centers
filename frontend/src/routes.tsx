@@ -9,6 +9,7 @@ import { Redirect, Route, Switch } from "react-router";
 
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
+import MainLayout from "./layouts/MainLayout";
 import SplashScreen from "./components/SplashScreen";
 
 interface IRoute {
@@ -75,6 +76,7 @@ export const routes: IRoute[] = [
   {
     path: routesDict.main.path,
     guard: AuthGuard,
+    layout: MainLayout,
     component: lazy(() => import("./views/main/MainView")),
   },
   {

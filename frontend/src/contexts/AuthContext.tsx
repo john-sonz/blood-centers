@@ -45,14 +45,6 @@ function reducer(state: AuthContextState, action: Action): AuthContextState {
       };
     }
 
-    case "LOGIN": {
-      return {
-        ...state,
-        user: action.payload.user,
-        isAuthenticated: true,
-      };
-    }
-
     case "LOGOUT": {
       return {
         ...state,
@@ -82,7 +74,7 @@ const initialValue: AuthContextValue = {
 const initialize = async (dispatch: React.Dispatch<Action>) => {
   try {
     const result = await axios.get("/me");
-    const user: User = result.data;
+    const user: User = result.data.me;
     dispatch({
       type: "INITIALIZE",
       payload: { isAuthenticated: true, user },
@@ -103,13 +95,8 @@ export default function AuthContextProvider({
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const login = useCallback(async (pesel: string, password: string) => {
-    const result = await axios.post("/auth/login", {
-      pesel,
-      password,
-    });
-    const user: User = result.data;
-
-    dispatch({ type: "LOGIN", payload: { user } });
+    await axios.post("/auth/login", { pesel, password });
+    initialize(dispatch);
   }, []);
 
   const logout = useCallback(async () => {
@@ -123,7 +110,7 @@ export default function AuthContextProvider({
     initialize(dispatch);
   }, []);
 
-  const reinitialize = useCallback(() => initialize(dispatch), [dispatch]);
+  const reinitialize = useCallback(() => initialize(dispatch), []);
 
   if (!state.isInitialized) return <SplashScreen />;
 

@@ -20,6 +20,7 @@ interface AuthContextState {
 interface AuthContextValue extends AuthContextState {
   login: (pesel: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  reinitialize: () => Promise<void>;
 }
 
 interface AuthContextProviderProps {
@@ -75,6 +76,23 @@ const initialValue: AuthContextValue = {
   ...initialState,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
+  reinitialize: () => Promise.resolve(),
+};
+
+const initialize = async (dispatch: React.Dispatch<Action>) => {
+  try {
+    const result = await axios.get("/me");
+    const user: User = result.data;
+    dispatch({
+      type: "INITIALIZE",
+      payload: { isAuthenticated: true, user },
+    });
+  } catch (error) {
+    dispatch({
+      type: "INITIALIZE",
+      payload: { isAuthenticated: false },
+    });
+  }
 };
 
 const AuthContext = createContext<AuthContextValue>(initialValue);
@@ -93,29 +111,19 @@ export default function AuthContextProvider({
 
     dispatch({ type: "LOGIN", payload: { user } });
   }, []);
+
   const logout = useCallback(async () => {
-    await axios.post("/auth/logout");
-    dispatch({ type: "LOGOUT" });
+    try {
+      await axios.post("/auth/logout");
+      dispatch({ type: "LOGOUT" });
+    } catch (_) {}
   }, []);
 
   useEffect(() => {
-    async function initialize() {
-      try {
-        const result = await axios.get("/me");
-        const user: User = result.data;
-        dispatch({
-          type: "INITIALIZE",
-          payload: { isAuthenticated: true, user },
-        });
-      } catch (error) {
-        dispatch({
-          type: "INITIALIZE",
-          payload: { isAuthenticated: false },
-        });
-      }
-    }
-    initialize();
+    initialize(dispatch);
   }, []);
+
+  const reinitialize = useCallback(() => initialize(dispatch), [dispatch]);
 
   if (!state.isInitialized) return <SplashScreen />;
 
@@ -125,6 +133,7 @@ export default function AuthContextProvider({
         ...state,
         login,
         logout,
+        reinitialize,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import * as yup from "yup";
 
+import { Box, Center, Container, Link, VStack } from "@chakra-ui/layout";
 import {
   Button,
   FormControl,
@@ -7,10 +8,11 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import { Center, Container, VStack } from "@chakra-ui/layout";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { routesDict } from "../../routes";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -44,7 +46,7 @@ export default function Login() {
   };
 
   return (
-    <Center width="100vw" height="100vh" bgColor="gray.200">
+    <Center width="100vw" height="100vh" bgColor="gray.300">
       <Container p={6} spacing={4} boxShadow="xl" rounded="md" bg="white">
         <form onSubmit={handleSubmit(onSubmit, (a) => console.log(a))}>
           <VStack spacing={4} align="flex-start">
@@ -54,7 +56,7 @@ export default function Login() {
               isInvalid={errors.pesel && touchedFields.pesel}
             >
               <FormLabel>PESEL</FormLabel>
-              <Input type="text" {...register("pesel")} />
+              <Input type="text" {...register("pesel")} autoComplete="off" />
               <FormErrorMessage>{errors.pesel?.message}</FormErrorMessage>
             </FormControl>
             <FormControl
@@ -69,6 +71,7 @@ export default function Login() {
             <FormControl isInvalid={!!errors.submitError}>
               <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
             </FormControl>
+
             <Button
               isLoading={isSubmitting}
               bgColor="blue.500"
@@ -83,6 +86,11 @@ export default function Login() {
             </Button>
           </VStack>
         </form>
+        <Box mt="2">
+          <Link as={RouterLink} to={routesDict.register} color="blue.500">
+            Nie masz konta? Zarejestruj się
+          </Link>
+        </Box>
       </Container>
     </Center>
   );

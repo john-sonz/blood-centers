@@ -13,4 +13,5 @@ EXPOSE 4000
 
 USER root
 
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD npm run dev

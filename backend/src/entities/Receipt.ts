@@ -3,17 +3,17 @@ import { Donation } from "./Donation";
 
 @Entity()
 export class Receipt {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column()
-    receipentId: number;
+    receipentId: string;
 
     @Column()
-    donationId: number;
+    donationId: string;
 
     @Column({ type: Date })
-    date: Date
+    date!: Date
 
     @Column()
     ammount: number;

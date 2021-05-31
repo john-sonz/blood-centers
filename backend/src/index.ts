@@ -46,6 +46,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
+        sameSite: "lax",
       },
       secret: process.env.SESSION_SECRET || "secret",
       resave: false,

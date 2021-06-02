@@ -10,6 +10,7 @@ services:
       - .env.example
     volumes:
       - ./backend:/backend/
+      - /backend/node_modules/argon2
 
   postgres:
     image: postgres:latest

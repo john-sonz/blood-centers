@@ -44,8 +44,7 @@ router.post("/", async(req, res) =>{
     }
 });
 
-router.post("/:donationId/:amount", async(req, res) =>{
-    //TODO
+router.post("/:donationId", async(req, res) =>{
     try {
         const donationsRepo = getRepository(Donation);
         const donation = await donationsRepo.findOne(req.params.donationId);
@@ -54,7 +53,7 @@ router.post("/:donationId/:amount", async(req, res) =>{
             return res.status(404).json({ msg: "Donation not found" });
         }
     
-        if(donation.availableMl < parseInt(req.params.amount)){
+        if(donation.availableMl < parseInt(req.body.ammount)){
             return res.status(404).json({ msg: "Not available amount" });
         }
 

@@ -1,0 +1,50 @@
+[0m2021.05.15 11:26:12 INFO  Started: Metals version 0.10.2 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client vscode 1.56.2.[0m
+[0m2021.05.15 11:26:15 INFO  time: initialize in 3.08s[0m
+[0m2021.05.15 11:26:19 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.15 11:26:19 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.15 12:25:07 INFO  shutting down Metals[0m
+[0m2021.05.15 19:50:11 INFO  Started: Metals version 0.10.2 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client vscode 1.56.2.[0m
+[0m2021.05.15 19:50:15 INFO  time: initialize in 4.73s[0m
+[0m2021.05.15 19:50:19 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.15 19:50:19 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.15 20:25:36 INFO  shutting down Metals[0m
+[0m2021.05.20 17:00:32 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.20 17:00:38 INFO  time: initialize in 5.84s[0m
+[0m2021.05.20 17:00:38 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.20 17:00:38 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.20 17:11:24 INFO  shutting down Metals[0m
+[0m2021.05.27 21:06:48 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.27 21:07:01 INFO  time: initialize in 12s[0m
+[0m2021.05.27 21:07:01 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.27 21:07:01 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+maj 27, 2021 9:27:33 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+[0m2021.05.28 00:31:32 INFO  shutting down Metals[0m
+[0m2021.05.28 18:30:30 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.28 18:30:44 INFO  time: initialize in 13s[0m
+[0m2021.05.28 18:30:44 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.28 18:30:44 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.28 19:07:27 INFO  shutting down Metals[0m
+[0m2021.05.30 13:06:42 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.30 13:06:53 INFO  time: initialize in 10s[0m
+[0m2021.05.30 13:06:53 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.30 13:06:53 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.30 16:03:44 INFO  shutting down Metals[0m
+[0m2021.05.30 22:30:05 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.30 22:30:15 INFO  time: initialize in 9.89s[0m
+[0m2021.05.30 22:30:15 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.30 22:30:15 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.31 02:37:18 INFO  shutting down Metals[0m
+[0m2021.05.31 09:19:58 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.31 09:20:35 INFO  time: initialize in 37s[0m
+[0m2021.05.31 09:20:35 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.31 09:20:35 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.05.31 12:22:21 INFO  shutting down Metals[0m
+[0m2021.06.02 10:26:30 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers' for client Visual Studio Code 1.56.2.[0m
+[0m2021.06.02 10:26:44 INFO  time: initialize in 13s[0m
+[0m2021.06.02 10:26:44 WARN  Build server is not auto-connectable.[0m
+[0m2021.06.02 10:26:44 WARN  no build tool detected in workspace 'C:\Users\Kinga\Desktop\kinia\BazyDanych\blood-center\blood-centers'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+cze 02, 2021 10:55:19 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+cze 02, 2021 12:06:06 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace

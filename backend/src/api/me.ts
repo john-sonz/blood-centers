@@ -24,6 +24,7 @@ router.get("/messages", async (req, res, next) => {
     const { userId } = req.session;
     const messages = await getRepository(Message).find({
       where: [{ recipientId: userId }, { senderId: userId }],
+      order: { sentAt: "DESC" },
     });
 
     res.json({ messages });

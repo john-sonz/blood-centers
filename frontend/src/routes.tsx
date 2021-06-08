@@ -89,7 +89,7 @@ export const routes: IRoute[] = [
       },
       {
         path: routesDict.main.messages.send(":id"),
-        component: lazy(() => import("./views/messages/MessagesView")),
+        component: lazy(() => import("./views/messages/SendMessageView")),
       },
       {
         path: routesDict.main.path,

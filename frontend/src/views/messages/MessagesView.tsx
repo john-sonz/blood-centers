@@ -1,12 +1,13 @@
-import { Badge, Heading, HStack } from "@chakra-ui/layout";
-import { Box, VStack, Text, Button, Link } from "@chakra-ui/react";
-import axios from "axios";
-import React from "react";
-import { useQuery } from "react-query";
+import { Badge, HStack, Heading } from "@chakra-ui/layout";
+import { Box, Button, Link, Text, VStack } from "@chakra-ui/react";
+
 import LoadingIndicator from "../../components/LoadingIndicator";
-import { useAuthContext } from "../../contexts/AuthContext";
-import { routesDict } from "../../routes";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import axios from "axios";
+import { routesDict } from "../../routes";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useQuery } from "react-query";
 
 interface Message {
   text: string;
@@ -40,14 +41,13 @@ export default function MessagesView() {
         {messages.map((msg) => (
           <Box
             w="60%"
-            p="2"
+            p={4}
             key={msg.id}
-            border="1px"
-            borderColor="gray.300"
             borderRadius="md"
             boxShadow="lg"
             justifyContent="flex-start"
             alignItems="center"
+            bgColor="white"
           >
             <HStack>
               <Text fontSize="sm" color="gray.900">

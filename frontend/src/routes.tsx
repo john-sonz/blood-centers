@@ -59,6 +59,10 @@ export const routesDict = {
   register: "/register",
   main: {
     path: "/main",
+    messages: {
+      path: "/main/messages",
+      send: (id: string) => `/main/messages/send/${id}`,
+    },
   },
 };
 
@@ -75,9 +79,23 @@ export const routes: IRoute[] = [
   },
   {
     path: routesDict.main.path,
+    exact: false,
     guard: AuthGuard,
     layout: MainLayout,
-    component: lazy(() => import("./views/main/MainView")),
+    routes: [
+      {
+        path: routesDict.main.messages.path,
+        component: lazy(() => import("./views/messages/MessagesView")),
+      },
+      {
+        path: routesDict.main.messages.send(":id"),
+        component: lazy(() => import("./views/messages/SendMessageView")),
+      },
+      {
+        path: routesDict.main.path,
+        component: lazy(() => import("./views/main/MainView")),
+      },
+    ],
   },
   {
     exact: false,

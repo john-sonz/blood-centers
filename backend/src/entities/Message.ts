@@ -35,6 +35,4 @@ export class Message {
 
   @CreateDateColumn()
   sentAt!: Date;
-
-  // TODO: Add reference to a particular donation/recepit here
 }

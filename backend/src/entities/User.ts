@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { IsEnum, IsNumberString, Length } from "class-validator";
 
+import { Donation } from "./Donation";
 import { Message } from "./Message";
 
 export enum BloodType {
@@ -93,4 +94,7 @@ export class User {
 
   @OneToMany(() => Message, (msg) => msg.recipient)
   receivedMessages: Message[];
+
+  @OneToMany(() => Donation, (donation) => donation.donator)
+  donations: Donation[];
 }

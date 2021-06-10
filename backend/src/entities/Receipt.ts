@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { Donation } from "./Donation";
 
@@ -7,17 +13,17 @@ export class Receipt {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "uuid" })
   receipentId: string;
 
-  @Column()
+  @Column({ type: "uuid" })
   donationId: string;
 
-  @Column({ type: Date })
+  @CreateDateColumn()
   date!: Date;
 
   @Column()
-  ammount: number;
+  amount: number;
 
   @ManyToOne(() => Donation, (donation) => donation.id) donation: Donation;
 }

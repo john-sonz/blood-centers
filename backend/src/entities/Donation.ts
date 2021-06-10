@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { Receipt } from "./Receipt";
 
@@ -7,10 +13,10 @@ export class Donation {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "uuid" })
   donatorId: string;
 
-  @Column({ type: Date })
+  @CreateDateColumn()
   date!: Date;
 
   @Column()

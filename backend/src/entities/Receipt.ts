@@ -25,7 +25,7 @@ export class Receipt {
   date!: Date;
 
   @Column()
-  ammount!: number;
+  amount!: number;
 
   @ManyToOne(() => Donation)
   @JoinColumn()

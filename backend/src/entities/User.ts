@@ -9,6 +9,7 @@ import { IsEnum, IsNumberString, Length } from "class-validator";
 
 import { Donation } from "./Donation";
 import { Message } from "./Message";
+import { Receipt } from "./Receipt";
 
 export enum BloodType {
   AB_RH_MINUS = "AB_RH_MINUS",
@@ -97,4 +98,7 @@ export class User {
 
   @OneToMany(() => Donation, (donation) => donation.donator)
   donations: Donation[];
+
+  @OneToMany(() => Receipt, (receipt) => receipt.recipient)
+  receipts: Receipt[];
 }

@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
 import { Length } from "class-validator";
 
 @Entity({ name: "privileges" })
@@ -11,6 +12,5 @@ export class Privilege {
   description!: string;
 
   @Column()
-  min_donated_amount_ml!: number;
-
+  minDonatedAmountMl!: number;
 }

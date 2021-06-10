@@ -22,7 +22,7 @@ router.get("/:userId", async (req, res) => {
 
     const privilegeRepo = getRepository(Privilege);
     const user_privileges = await privilegeRepo.find({
-      min_donated_amount_ml: LessThanOrEqual(blood_sum),
+      minDonatedAmountMl: LessThanOrEqual(blood_sum),
     });
     return res.json(user_privileges);
   } catch (error) {

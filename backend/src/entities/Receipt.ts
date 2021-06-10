@@ -10,7 +10,7 @@ import {
 import { Donation } from "./Donation";
 import { User } from "./User";
 
-@Entity()
+@Entity({ name: "receipts" })
 export class Receipt {
   @PrimaryGeneratedColumn("uuid")
   id: string;

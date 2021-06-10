@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
 import { Length } from "class-validator";
 
 @Entity({ name: "events" })
@@ -12,13 +13,12 @@ export class Event {
 
   @Column()
   @Length(2, 255)
-  adress!: string;
+  address!: string;
 
   @Column()
   @Length(2, 255)
   description: string;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: "timestamptz" })
   date!: Date;
-
 }

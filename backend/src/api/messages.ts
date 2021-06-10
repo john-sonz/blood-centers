@@ -14,12 +14,13 @@ router.post("/", async (req, res) => {
     const msg = repo.create({
       ...req.body,
       senderId: req.session.userId,
-    });
+    } as Message);
 
     const errors = await validate(msg);
     if (errors.length > 0) return res.status(400).json({ errors });
 
     const result = await repo.save(msg);
+
     return res.json({ msg: result });
   } catch (error) {
     console.warn(error, req.body);

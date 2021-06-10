@@ -26,7 +26,7 @@ const main = async () => {
   const connection = await createConnection();
   console.log("Running pending migrations...");
   try {
-    const migrations = await connection.runMigrations();
+    const migrations = await connection.runMigrations({ transaction: "each" });
     migrations.map((migration) => console.log(`${migration.name} - applied`));
   } catch (error) {
     console.error("Error when running migrations:");

@@ -7,30 +7,40 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Link,
 } from "@chakra-ui/react";
 
 import { Button } from "@chakra-ui/button";
-import React from "react";
+import React, { ReactNode } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
+import { routesDict } from "../routes";
+import { Link as RouterLink } from "react-router-dom";
+
+interface SidebarItemProps {
+  children?: ReactNode;
+  to: string;
+}
+
+function SidebarItem({ children, to }: SidebarItemProps) {
+  return (
+    <Link as={RouterLink} to={to} w="100%">
+      <Button colorScheme="red" w="100%">
+        {children}
+      </Button>
+    </Link>
+  );
+}
 
 function Content() {
   const { logout } = useAuthContext();
   return (
     <Flex direction="column" justifyContent="space-between" h="100%" py="4">
-      <VStack>
-        <Button w="100%">Some button 1</Button>
-        <Button w="100%">Some button 2</Button>
-        <Button w="100%">Some button 3</Button>
-        <Button w="100%">Some button 4</Button>
+      <VStack spacing="4">
+        <SidebarItem to={routesDict.main.path}>Strona główna</SidebarItem>
+        <SidebarItem to={routesDict.main.messages.path}>Wiadomości</SidebarItem>
         <Spacer></Spacer>
       </VStack>
-      <Button
-        w="100%"
-        bgColor="red.500"
-        _hover={{ bgColor: "red.400" }}
-        color="white"
-        onClick={logout}
-      >
+      <Button w="100%" colorScheme="red" onClick={logout}>
         Wyloguj się
       </Button>
     </Flex>

@@ -1,22 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+
 import { Donation } from "./Donation";
 
 @Entity()
 export class Receipt {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    receipentId: string;
+  @Column({ type: "uuid" })
+  receipentId: string;
 
-    @Column()
-    donationId: string;
+  @Column({ type: "uuid" })
+  donationId: string;
 
-    @Column({ type: Date })
-    date!: Date
+  @CreateDateColumn()
+  date!: Date;
 
-    @Column()
-    ammount: number;
+  @Column()
+  amount: number;
 
-    @ManyToOne (() => Donation, donation => donation.id) donation: Donation;
+  @ManyToOne(() => Donation, (donation) => donation.id) donation: Donation;
 }

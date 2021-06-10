@@ -23,16 +23,15 @@ const pgPool = new pg.Pool({
 const pgSession = connectPg(session);
 
 const main = async () => {
-  // const connection =
-  await createConnection();
-  // console.log("Running pending migrations...");
-  // try {
-  //   const migrations = await connection.runMigrations();
-  //   migrations.map((migration) => console.log(`${migration.name} - applied`));
-  // } catch (error) {
-  //   console.error("Error when running migrations:");
-  //   console.error(error);
-  // }
+  const connection = await createConnection();
+  console.log("Running pending migrations...");
+  try {
+    const migrations = await connection.runMigrations({ transaction: "each" });
+    migrations.map((migration) => console.log(`${migration.name} - applied`));
+  } catch (error) {
+    console.error("Error when running migrations:");
+    console.error(error);
+  }
 
   app.use(express.json());
   app.use(helmet());

@@ -63,6 +63,15 @@ export const routesDict = {
       path: "/main/messages",
       send: (id: string) => `/main/messages/send/${id}`,
     },
+    events: {
+      path: "/main/events"
+    },
+    privilages: {
+      path: "/main/privilages"
+    },
+    userprivilages: {
+      path: "/main/user-privilages"
+    }
   },
 };
 
@@ -90,6 +99,18 @@ export const routes: IRoute[] = [
       {
         path: routesDict.main.messages.send(":id"),
         component: lazy(() => import("./views/messages/SendMessageView")),
+      },
+      {
+        path: routesDict.main.events.path,
+        component: lazy(() => import("./views/events/EventsView")),
+      },
+      {
+        path: routesDict.main.userprivilages.path,
+        component: lazy(() => import("./views/user-privilages/UserPrivilagesView")),
+      },
+      {
+        path: routesDict.main.privilages.path,
+        component: lazy(() => import("./views/privilages/PrivilagesView")),
       },
       {
         path: routesDict.main.path,

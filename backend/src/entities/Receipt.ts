@@ -1,23 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
 import { Donation } from "./Donation";
 
 @Entity()
 export class Receipt {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    receipentId: number;
+  @Column()
+  receipentId: string;
 
-    @Column()
-    donationId: number;
+  @Column()
+  donationId: string;
 
-    @Column({ type: Date })
-    date: Date
+  @Column({ type: Date })
+  date!: Date;
 
-    @Column()
-    ammount: number;
+  @Column()
+  ammount: number;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @ManyToOne (_type => Donation, donation => donation.id) donation: Donation;
+  @ManyToOne(() => Donation, (donation) => donation.id) donation: Donation;
 }

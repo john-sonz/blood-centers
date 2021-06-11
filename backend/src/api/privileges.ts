@@ -7,12 +7,14 @@ import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
 
-router.get("/:userId", async (_req, res, next) => {
+router.get("/:userId", async (req, res, next) => {
   try {
+    const { userId } = req.session;
     const donationsRepo = getRepository(Donation);
     const user_donations = await donationsRepo.find({
-      donatorId: _req.params.userId,
+      where: [{ donatorId: userId }],
     });
+
     let blood_sum = 0;
     for (const donation of user_donations) {
       blood_sum += donation.amountMl;
@@ -23,7 +25,6 @@ router.get("/:userId", async (_req, res, next) => {
       min_donated_amount_ml: LessThanOrEqual(blood_sum),
     });
     res.json({user_privileges});
-
   } catch (error) {
     next(error);
   }

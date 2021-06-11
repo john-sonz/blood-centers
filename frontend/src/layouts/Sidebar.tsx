@@ -39,8 +39,8 @@ function Content() {
         <SidebarItem to={routesDict.main.path}>Strona główna</SidebarItem>
         <SidebarItem to={routesDict.main.messages.path}>Wiadomości</SidebarItem>
         <SidebarItem to={routesDict.main.events.path}>Wydarzenia</SidebarItem>
-        <SidebarItem to={routesDict.main.privilages.path}>Przywileje</SidebarItem>
-        <SidebarItem to={routesDict.main.userprivilages.path}>Moje przywileje</SidebarItem>
+        <SidebarItem to={routesDict.main.privileges.path}>Przywileje</SidebarItem>
+        <SidebarItem to={routesDict.main.userprivileges.path}>Moje przywileje</SidebarItem>
         <Spacer></Spacer>
       </VStack>
       <Button w="100%" colorScheme="red" onClick={logout}>

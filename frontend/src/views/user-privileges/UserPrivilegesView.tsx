@@ -9,33 +9,35 @@ import { routesDict } from "../../routes";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "react-query";
 
-interface Privilage {
+interface Privilege {
   min_donated_amount_ml: number;
   description: string;
   id: string;
 }
 
-export default function PrivilagesView() {
-  const { data, isLoading, error } = useQuery("privilages", () =>
-    axios.get<{ privilages: Privilage[] }>("/me/privilages")
+export default function UserPrivilegesView() {
+  const { user } = useAuthContext();
+
+  const { data, isLoading, error } = useQuery("privileges", () =>
+    axios.get<{ privileges: Privilege[] }>("/privileges/:userId")
   );
 
   if (isLoading) return <LoadingIndicator />;
 
   if (error || !data?.data)
-    return <Heading size="lg">Nie udało się pobrać przywilejów</Heading>;
+    return <Heading size="lg">Nie udało się pobrać Twoich przywilejów</Heading>;
 
-  const { privilages } = data.data;
+  const { privileges } = data.data;
   return (
     <VStack w="100%">
       <Heading size="lg" pb="4">
-        Przywileje
+        Twoje przywileje
       </Heading>
       <VStack w="100%" spacing="5">
-        {privilages.length === 0 && (
-          <Text fontSize="lg">Brak przywilejów</Text>
+        {privileges.length === 0 && (
+          <Text fontSize="lg">Nie masz żadnych przywilejów</Text>
         )}
-        {privilages.map((priv) => (
+        {privileges.map((priv) => (
           <Box
             w="60%"
             p={4}

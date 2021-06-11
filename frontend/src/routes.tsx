@@ -66,11 +66,11 @@ export const routesDict = {
     events: {
       path: "/main/events"
     },
-    privilages: {
-      path: "/main/privilages"
+    privileges: {
+      path: "/main/privileges"
     },
-    userprivilages: {
-      path: "/main/user-privilages"
+    userprivileges: {
+      path: "/main/user-privileges"
     }
   },
 };
@@ -105,12 +105,12 @@ export const routes: IRoute[] = [
         component: lazy(() => import("./views/events/EventsView")),
       },
       {
-        path: routesDict.main.userprivilages.path,
-        component: lazy(() => import("./views/user-privilages/UserPrivilagesView")),
+        path: routesDict.main.userprivileges.path,
+        component: lazy(() => import("./views/user-privileges/UserPrivilegesView")),
       },
       {
-        path: routesDict.main.privilages.path,
-        component: lazy(() => import("./views/privilages/PrivilagesView")),
+        path: routesDict.main.privileges.path,
+        component: lazy(() => import("./views/privileges/PrivilegesView")),
       },
       {
         path: routesDict.main.path,

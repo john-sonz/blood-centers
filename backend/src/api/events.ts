@@ -5,14 +5,13 @@ import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
 
-router.get("/", async (_req, res) => {
+router.get("/", async(_req, res, next) => {
   try {
     const eventRepo = getRepository(Event);
     const events = await eventRepo.find();
-    return res.json(events);
-  } catch (error) {
-    console.warn(error, _req.body);
-    return res.status(500);
+    res.json({events});
+  } catch(error) {
+      next(error);
   }
 });
 

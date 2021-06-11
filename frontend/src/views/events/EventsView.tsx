@@ -19,7 +19,7 @@ interface Event {
 
 export default function EventsView() {
   const { data, isLoading, error } = useQuery("events", () =>
-    axios.get<{ events: Event[] }>("/me/events")
+    axios.get<{ events: Event[] }>("/events")
   );
 
   if (isLoading) return <LoadingIndicator />;
@@ -35,7 +35,7 @@ export default function EventsView() {
       </Heading>
       <VStack w="100%" spacing="5">
         {events.length === 0 && (
-          <Text fontSize="lg">Brak zaplanowanych wydarzeń</Text>
+          <Text fontSize="lg">Brak wydarzeń w bazie</Text>
         )}
         {events.map((event) => (
           <Box

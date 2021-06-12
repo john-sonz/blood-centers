@@ -10,7 +10,7 @@ import {
 import { Length } from "class-validator";
 import { User } from "./User";
 
-@Entity()
+@Entity({ name: "messages" })
 export class Message {
   @PrimaryGeneratedColumn("uuid")
   id!: string;

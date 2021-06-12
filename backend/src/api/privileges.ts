@@ -7,38 +7,40 @@ import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
 
-router.get("/:userId", async (req, res) => {
+router.use(isAuthorized(true));
+
+router.get("/user/:userId", async (req, res, next) => {
   try {
-    const donationsRepo = getRepository(Donation);
-    const user_donations = await donationsRepo.find({
-      donatorId: req.params.userId,
-    });
+    const { userId } = req.params;
+    const allPrivileges = Boolean(req.query.allPrivileges);
 
-    let blood_sum = 0;
-
-    for (const donation of user_donations) {
-      blood_sum += donation.amountMl;
-    }
+    const bloodSum: number = await getRepository(Donation)
+      .createQueryBuilder("donation")
+      .select("SUM(donation.amountMl)")
+      .where("donation.donatorId = :userId", { userId })
+      .getRawOne();
 
     const privilegeRepo = getRepository(Privilege);
-    const user_privileges = await privilegeRepo.find({
-      minDonatedAmountMl: LessThanOrEqual(blood_sum),
+    const privileges = await privilegeRepo.find({
+      where: allPrivileges
+        ? undefined
+        : [{ minDonatedAmountMl: LessThanOrEqual(bloodSum) }],
+      order: { minDonatedAmountMl: "ASC" },
     });
-    return res.json(user_privileges);
+
+    res.json({ privileges, donatedMl: bloodSum });
   } catch (error) {
-    console.warn(error, req.body);
-    return res.status(500);
+    next(error);
   }
 });
 
-router.get("/", async (_req, res) => {
+router.get("/", async (_req, res, next) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const privileges = await privilegeRepo.find();
-    return res.json(privileges);
+    res.json({ privileges });
   } catch (error) {
-    console.warn(error, _req.body);
-    return res.status(500);
+    next(error);
   }
 });
 
@@ -51,11 +53,11 @@ router.get("/:id", async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.post("/", isAuthorized(), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const privilege = privilegeRepo.create(req.body);
@@ -63,11 +65,11 @@ router.post("/", isAuthorized(), async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.put("/:id", isAuthorized(), async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const privilege = await privilegeRepo.findOne(req.params.id);
@@ -78,18 +80,18 @@ router.put("/:id", isAuthorized(), async (req, res) => {
     return res.json(results);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.delete("/:id", isAuthorized(), async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const result = await privilegeRepo.delete(req.params.id);
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 

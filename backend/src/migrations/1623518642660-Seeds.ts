@@ -173,7 +173,7 @@ export class Seeds1623518642660 implements MigrationInterface {
           });
           if (!donation) return;
           donation = tem.merge(Donation, donation, {
-            amountMl: donation.amountMl - receipt.amount,
+            availableMl: donation.availableMl - receipt.amount,
           });
           tem.save(donation);
         })

@@ -155,7 +155,7 @@ async function eventsSeeds(n = 20) {
   return repo.save(events);
 }
 
-export class Seeds1623340242945 implements MigrationInterface {
+export class Seeds1623518642660 implements MigrationInterface {
   public async up(_: QueryRunner): Promise<void> {
     const receiptRepo = getRepository(Receipt);
     const userRepo = getRepository(User);
@@ -183,6 +183,19 @@ export class Seeds1623340242945 implements MigrationInterface {
     await messagesSeeds(receipts);
     await privelagesSeeds();
     await eventsSeeds();
+
+    let events = await getRepository(Event).find();
+    users = await userRepo.find();
+
+    events = events.map((ev) => {
+      ev.interestedUsers = faker.random.arrayElements(
+        users,
+        faker.datatype.number({ min: 3, max: 15 })
+      );
+      return ev;
+    });
+
+    await getRepository(Event).save(events);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

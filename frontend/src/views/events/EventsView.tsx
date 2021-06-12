@@ -21,12 +21,17 @@ import axios from "axios";
 import { routesDict } from "../../routes";
 import { useAuthContext } from "../../contexts/AuthContext";
 
+interface EventResponse extends Event {
+  totalInterested: number;
+  isInterested: boolean;
+}
+
 export default function EventsView() {
   const queryClient = useQueryClient();
   const toast = useToast();
   const { user } = useAuthContext();
   const { data, isLoading, error } = useQuery("events", () =>
-    axios.get<{ events: Event[] }>("/events")
+    axios.get<{ events: EventResponse[] }>("/events")
   );
 
   const { mutate: deleteEvent } = useMutation(
@@ -44,6 +49,40 @@ export default function EventsView() {
         toast({
           title: "Coś poszło nie tak...",
           description: "Nie udało się usunąć wydarzenia",
+          status: "error",
+        });
+      },
+    }
+  );
+
+  const { mutate: addInterest } = useMutation(
+    ({ eventId }: { eventId: string }) =>
+      axios.post(`/events/${eventId}/interest`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("events");
+      },
+      onError: () => {
+        toast({
+          title: "Coś poszło nie tak...",
+          description: "Nie udało się dodać wydarzenia do śledzonych",
+          status: "error",
+        });
+      },
+    }
+  );
+
+  const { mutate: removeInterest } = useMutation(
+    ({ eventId }: { eventId: string }) =>
+      axios.delete(`/events/${eventId}/interest`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("events");
+      },
+      onError: () => {
+        toast({
+          title: "Coś poszło nie tak...",
+          description: "Nie udało się usunąć wydarzenia ze śledzonych",
           status: "error",
         });
       },
@@ -117,6 +156,28 @@ export default function EventsView() {
             <Text my="2" fontSize="xl">
               {event.description}
             </Text>
+            <Flex justifyContent="space-between">
+              <Text fontSize="lg">
+                Zainteresowane osoby: {event.totalInterested}
+              </Text>
+              {event.isInterested ? (
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() => removeInterest({ eventId: event.id })}
+                >
+                  Przestań śledzić wydarzenie
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() => addInterest({ eventId: event.id })}
+                >
+                  Śledź wydarzenie
+                </Button>
+              )}
+            </Flex>
           </Box>
         ))}
       </VStack>

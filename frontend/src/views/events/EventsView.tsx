@@ -40,6 +40,7 @@ export default function EventsView() {
       retry: false,
       onSuccess: () => {
         queryClient.invalidateQueries("events");
+        queryClient.invalidateQueries("myEvents");
         toast({
           title: "Usunięto wydarzenie",
           status: "success",
@@ -61,6 +62,7 @@ export default function EventsView() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("events");
+        queryClient.invalidateQueries("myEvents");
       },
       onError: () => {
         toast({
@@ -78,6 +80,7 @@ export default function EventsView() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("events");
+        queryClient.invalidateQueries("myEvents");
       },
       onError: () => {
         toast({

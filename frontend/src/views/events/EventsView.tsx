@@ -1,12 +1,9 @@
 import { Badge, HStack, Heading } from "@chakra-ui/layout";
-import { Box, Button, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 import LoadingIndicator from "../../components/LoadingIndicator";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
-import { routesDict } from "../../routes";
-import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "react-query";
 
 interface Event {
@@ -48,30 +45,22 @@ export default function EventsView() {
             alignItems="center"
             bgColor="white"
           >
-
             <HStack>
-
               <Text fontSize="sm" color="gray.900">
                 {event.city}
               </Text>
               <Text fontSize="sm" color="gray.900">
                 {event.adress}
               </Text>
-              <Badge colorScheme="blue">
-                {event.date}
-              </Badge>
-
+              <Badge colorScheme="blue">{event.date}</Badge>
             </HStack>
 
             <Text my="2" fontSize="xl">
               {event.description}
             </Text>
-
           </Box>
-
         ))}
       </VStack>
     </VStack>
   );
 }
-

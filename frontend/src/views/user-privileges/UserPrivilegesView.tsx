@@ -1,12 +1,9 @@
 import { Badge, HStack, Heading } from "@chakra-ui/layout";
-import { Box, Button, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 import LoadingIndicator from "../../components/LoadingIndicator";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
-import { routesDict } from "../../routes";
-import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "react-query";
 
 interface Privilege {
@@ -16,8 +13,6 @@ interface Privilege {
 }
 
 export default function UserPrivilegesView() {
-  const { user } = useAuthContext();
-
   const { data, isLoading, error } = useQuery("privileges", () =>
     axios.get<{ privileges: Privilege[] }>("/privileges/:userId")
   );
@@ -48,28 +43,20 @@ export default function UserPrivilegesView() {
             alignItems="center"
             bgColor="white"
           >
-
             <HStack>
-
               <Text fontSize="sm" color="gray.900">
                 {priv.min_donated_amount_ml}
               </Text>
 
-              <Badge colorScheme="blue">
-                {priv.min_donated_amount_ml}
-              </Badge>
-
+              <Badge colorScheme="blue">{priv.min_donated_amount_ml}</Badge>
             </HStack>
 
             <Text my="2" fontSize="xl">
               {priv.description}
             </Text>
-
           </Box>
-
         ))}
       </VStack>
     </VStack>
   );
 }
-

@@ -1,20 +1,19 @@
-import { Badge, HStack, Heading } from "@chakra-ui/layout";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Progress, Text, VStack } from "@chakra-ui/react";
 
+import { CheckCircleIcon } from "@chakra-ui/icons";
+import { Heading } from "@chakra-ui/layout";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { Privilege } from "../../types/privilege";
 import React from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
 
-interface Privilege {
-  min_donated_amount_ml: number;
-  description: string;
-  id: string;
-}
-
 export default function UserPrivilegesView() {
-  const { data, isLoading, error } = useQuery("privileges", () =>
-    axios.get<{ privileges: Privilege[] }>("/privileges/:userId")
+  const { data, isLoading, error } = useQuery("myPrivileges", () =>
+    axios.get<{ donatedMl: number; privileges: Privilege[] }>(
+      "/me/privileges",
+      { params: { allPrivileges: true } }
+    )
   );
 
   if (isLoading) return <LoadingIndicator />;
@@ -22,13 +21,17 @@ export default function UserPrivilegesView() {
   if (error || !data?.data)
     return <Heading size="lg">Nie udało się pobrać Twoich przywilejów</Heading>;
 
-  const { privileges } = data.data;
+  const { privileges, donatedMl } = data.data;
   return (
     <VStack w="100%">
       <Heading size="lg" pb="4">
         Twoje przywileje
       </Heading>
+
       <VStack w="100%" spacing="5">
+        <Text fontSize="xl">
+          Całkowita objętość oddanej krwi - {donatedMl} ml{" "}
+        </Text>
         {privileges.length === 0 && (
           <Text fontSize="lg">Nie masz żadnych przywilejów</Text>
         )}
@@ -43,17 +46,24 @@ export default function UserPrivilegesView() {
             alignItems="center"
             bgColor="white"
           >
-            <HStack>
-              <Text fontSize="sm" color="gray.900">
-                {priv.min_donated_amount_ml}
-              </Text>
-
-              <Badge colorScheme="blue">{priv.min_donated_amount_ml}</Badge>
-            </HStack>
-
-            <Text my="2" fontSize="xl">
-              {priv.description}
-            </Text>
+            <Flex my="2" justifyContent="space-between" alignItems="center">
+              <Text fontSize="xl">{priv.description}</Text>
+              <Flex alignItems="center">
+                <Text>
+                  {donatedMl}/{priv.minDonatedAmountMl} ml
+                </Text>
+                {donatedMl >= priv.minDonatedAmountMl && (
+                  <CheckCircleIcon mx="1" color="red.500" />
+                )}
+              </Flex>
+            </Flex>
+            <Progress
+              borderRadius="md"
+              colorScheme="red"
+              size="sm"
+              value={Math.min(priv.minDonatedAmountMl, donatedMl)}
+              max={priv.minDonatedAmountMl}
+            />
           </Box>
         ))}
       </VStack>

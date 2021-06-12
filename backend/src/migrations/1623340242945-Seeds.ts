@@ -125,7 +125,7 @@ async function privelagesSeeds() {
     }),
     repo.create({
       minDonatedAmountMl: 6000,
-      description: "Priorytet w kolejce prz korzystaniu z opieki zdrowotnej",
+      description: "Priorytet w kolejce przy korzystaniu z opieki zdrowotnej",
     }),
     repo.create({
       minDonatedAmountMl: 10000,

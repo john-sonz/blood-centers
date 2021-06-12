@@ -1,7 +1,10 @@
+import { LessThanOrEqual, getRepository } from "typeorm";
+
+import { Donation } from "../entities/Donation";
 import { Message } from "../entities/Message";
+import { Privilege } from "../entities/Privilege";
 import { Router } from "express";
 import { User } from "../entities/User";
-import { getRepository } from "typeorm";
 import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
@@ -28,6 +31,30 @@ router.get("/messages", async (req, res, next) => {
     });
 
     res.json({ messages });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/privileges", async (req, res, next) => {
+  try {
+    const { userId } = req.session;
+    const allPrivileges = Boolean(req.query.allPrivileges);
+    const { sum: bloodSum }: { sum: number } = await getRepository(Donation)
+      .createQueryBuilder("donation")
+      .select("SUM(donation.amountMl)")
+      .where("donation.donatorId = :userId", { userId })
+      .getRawOne();
+
+    const privilegeRepo = getRepository(Privilege);
+    const privileges = await privilegeRepo.find({
+      where: allPrivileges
+        ? undefined
+        : [{ minDonatedAmountMl: LessThanOrEqual(bloodSum) }],
+      order: { minDonatedAmountMl: "ASC" },
+    });
+
+    res.json({ privileges, donatedMl: bloodSum });
   } catch (error) {
     next(error);
   }

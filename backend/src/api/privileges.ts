@@ -7,7 +7,9 @@ import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
 
-router.get("/:userId", async (req, res, next) => {
+router.use(isAuthorized(true));
+
+router.get("/user/:userId", async (req, res, next) => {
   try {
     const { userId } = req.params;
     const allPrivileges = Boolean(req.query.allPrivileges);
@@ -51,11 +53,11 @@ router.get("/:id", async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.post("/", isAuthorized(), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const privilege = privilegeRepo.create(req.body);
@@ -63,11 +65,11 @@ router.post("/", isAuthorized(), async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.put("/:id", isAuthorized(), async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const privilege = await privilegeRepo.findOne(req.params.id);
@@ -78,18 +80,18 @@ router.put("/:id", isAuthorized(), async (req, res) => {
     return res.json(results);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
-router.delete("/:id", isAuthorized(), async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const privilegeRepo = getRepository(Privilege);
     const result = await privilegeRepo.delete(req.params.id);
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 

@@ -1,6 +1,5 @@
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  Flex,
+  Button,
   IconButton,
   Table,
   Tbody,
@@ -10,19 +9,48 @@ import {
   Thead,
   Tr,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
+import { FaPlusCircle } from "react-icons/fa";
 import { Heading } from "@chakra-ui/layout";
+import { Link } from "react-router-dom";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { Privilege } from "../../types/privilege";
 import React from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { routesDict } from "../../routes";
+
+const deletePriv = ({ privilegeId }: { privilegeId: string }) =>
+  axios.delete(`/privileges/${privilegeId}`);
 
 export default function PrivilegesView() {
+  const queryClient = useQueryClient();
+  const toast = useToast();
   const { data, isLoading, error } = useQuery("privileges", () =>
     axios.get<{ privileges: Privilege[] }>("/privileges")
   );
+
+  const { mutate: deletePrivilege } = useMutation(deletePriv, {
+    retry: false,
+    onSuccess: () => {
+      queryClient.invalidateQueries("privileges");
+      queryClient.invalidateQueries("myPrivileges");
+      toast({
+        title: "Usunięto przywilej",
+        status: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Coś poszło nie tak...",
+        description: "Nie udało się usunąć przywileju",
+        status: "error",
+      });
+    },
+  });
 
   if (isLoading) return <LoadingIndicator />;
 
@@ -50,7 +78,17 @@ export default function PrivilegesView() {
               <Tr>
                 <Th>Opis</Th>
                 <Th isNumeric>Wymagana objętość oddanej krwi</Th>
-                <Th></Th>
+                <Th isNumeric>
+                  <Link to={routesDict.main.privileges.create}>
+                    <Button
+                      size="sm"
+                      leftIcon={<FaPlusCircle />}
+                      colorScheme="red"
+                    >
+                      Nowy przywilej
+                    </Button>
+                  </Link>
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -61,17 +99,20 @@ export default function PrivilegesView() {
                   </Td>
                   <Td isNumeric>{priv.minDonatedAmountMl} ml</Td>
                   <Td isNumeric>
-                    <IconButton
-                      variant="ghost"
-                      colorScheme="blue"
-                      aria-label="Edit privilega"
-                      icon={<EditIcon />}
-                    />
+                    <Link to={routesDict.main.privileges.edit(priv.id)}>
+                      <IconButton
+                        variant="ghost"
+                        colorScheme="blue"
+                        aria-label="Edit privilega"
+                        icon={<EditIcon />}
+                      />
+                    </Link>
                     <IconButton
                       variant="ghost"
                       colorScheme="red"
                       aria-label="Delete privilega"
                       icon={<DeleteIcon />}
+                      onClick={() => deletePrivilege({ privilegeId: priv.id })}
                     />
                   </Td>
                 </Tr>

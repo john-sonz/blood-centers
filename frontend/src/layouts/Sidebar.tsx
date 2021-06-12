@@ -9,12 +9,12 @@ import {
   Flex,
   Link,
 } from "@chakra-ui/react";
+import React, { ReactNode } from "react";
 
 import { Button } from "@chakra-ui/button";
-import React, { ReactNode } from "react";
-import { useAuthContext } from "../contexts/AuthContext";
-import { routesDict } from "../routes";
 import { Link as RouterLink } from "react-router-dom";
+import { routesDict } from "../routes";
+import { useAuthContext } from "../contexts/AuthContext";
 
 interface SidebarItemProps {
   children?: ReactNode;
@@ -32,15 +32,21 @@ function SidebarItem({ children, to }: SidebarItemProps) {
 }
 
 function Content() {
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
   return (
     <Flex direction="column" justifyContent="space-between" h="100%" py="4">
       <VStack spacing="4">
         <SidebarItem to={routesDict.main.path}>Strona główna</SidebarItem>
         <SidebarItem to={routesDict.main.messages.path}>Wiadomości</SidebarItem>
         <SidebarItem to={routesDict.main.events.path}>Wydarzenia</SidebarItem>
-        <SidebarItem to={routesDict.main.privileges.path}>Przywileje</SidebarItem>
-        <SidebarItem to={routesDict.main.userprivileges.path}>Moje przywileje</SidebarItem>
+        <SidebarItem to={routesDict.main.myPrivileges.path}>
+          Moje przywileje
+        </SidebarItem>
+        {user?.isAdmin && (
+          <SidebarItem to={routesDict.main.privileges.path}>
+            Przywileje
+          </SidebarItem>
+        )}
         <Spacer></Spacer>
       </VStack>
       <Button w="100%" colorScheme="red" onClick={logout}>

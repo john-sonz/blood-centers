@@ -7,10 +7,11 @@ import React, {
 } from "react";
 import { Redirect, Route, Switch } from "react-router";
 
+import AdminGuard from "./guards/AdminGuard";
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
+import LoadingIndicator from "./components/LoadingIndicator";
 import MainLayout from "./layouts/MainLayout";
-import SplashScreen from "./components/SplashScreen";
 
 interface IRoute {
   exact?: boolean;
@@ -23,7 +24,7 @@ interface IRoute {
 
 export function renderRoutes(routes: IRoute[] = []): ReactElement {
   return (
-    <Suspense fallback={<SplashScreen />}>
+    <Suspense fallback={<LoadingIndicator />}>
       <Switch>
         {routes.map((route, i) => {
           const Guard = route.guard || Fragment;
@@ -64,14 +65,16 @@ export const routesDict = {
       send: (id: string) => `/main/messages/send/${id}`,
     },
     events: {
-      path: "/main/events"
+      path: "/main/events",
     },
     privileges: {
-      path: "/main/privileges"
+      path: "/main/privileges",
+      create: "/main/privileges/create",
+      edit: (id: string) => `/main/privileges/edit/${id}`,
     },
-    userprivileges: {
-      path: "/main/user-privileges"
-    }
+    myPrivileges: {
+      path: "/main/myPrivileges",
+    },
   },
 };
 
@@ -105,12 +108,23 @@ export const routes: IRoute[] = [
         component: lazy(() => import("./views/events/EventsView")),
       },
       {
-        path: routesDict.main.userprivileges.path,
-        component: lazy(() => import("./views/user-privileges/UserPrivilegesView")),
+        path: routesDict.main.myPrivileges.path,
+        component: lazy(() => import("./views/myPrivileges/MyPrivilegesView")),
       },
       {
         path: routesDict.main.privileges.path,
+        guard: AdminGuard,
         component: lazy(() => import("./views/privileges/PrivilegesView")),
+      },
+      {
+        path: routesDict.main.privileges.create,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/privileges/CreatePrivilegeView")),
+      },
+      {
+        path: routesDict.main.privileges.edit(":id"),
+        guard: AdminGuard,
+        component: lazy(() => import("./views/privileges/EditPrivilegeView")),
       },
       {
         path: routesDict.main.path,

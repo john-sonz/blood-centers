@@ -8,7 +8,7 @@ import React from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
 
-export default function UserPrivilegesView() {
+export default function MyPrivilegesView() {
   const { data, isLoading, error } = useQuery("myPrivileges", () =>
     axios.get<{ donatedMl: number; privileges: Privilege[] }>(
       "/me/privileges",

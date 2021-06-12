@@ -66,6 +66,8 @@ export const routesDict = {
     },
     events: {
       path: "/main/events",
+      create: "/main/events/create",
+      edit: (id: string) => `/main/events/edit/${id}`,
     },
     privileges: {
       path: "/main/privileges",
@@ -106,6 +108,21 @@ export const routes: IRoute[] = [
       {
         path: routesDict.main.events.path,
         component: lazy(() => import("./views/events/EventsView")),
+      },
+      {
+        path: routesDict.main.events.path,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/EventsView")),
+      },
+      {
+        path: routesDict.main.events.create,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/CreateEventView")),
+      },
+      {
+        path: routesDict.main.events.edit(":id"),
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/EditEventView")),
       },
       {
         path: routesDict.main.myPrivileges.path,

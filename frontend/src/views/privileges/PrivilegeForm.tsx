@@ -51,12 +51,10 @@ export default function PrivilegeForm({
     resolver: yupResolver(schema),
   });
 
-  console.log(defaultValues);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl
-        id="text"
+        id="desc"
         isRequired
         isInvalid={errors.description && touchedFields.description}
       >
@@ -65,7 +63,7 @@ export default function PrivilegeForm({
         <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
       </FormControl>
       <FormControl
-        id="text"
+        id="blood-amount"
         isRequired
         isInvalid={
           errors.minDonatedAmountMl && touchedFields.minDonatedAmountMl

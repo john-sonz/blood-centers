@@ -80,7 +80,7 @@ export default function Login() {
   return (
     <Center width="100vw" height="100vh" bgColor="gray.300">
       <Container p={6} spacing={4} boxShadow="xl" rounded="md" bg="white">
-        <form onSubmit={handleSubmit(onSubmit, (a) => console.log(a))}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={4} align="flex-start">
             <FormControl
               id="pesel"

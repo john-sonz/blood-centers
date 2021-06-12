@@ -1,22 +1,53 @@
 import { Badge, HStack, Heading } from "@chakra-ui/layout";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Spacer,
+  Text,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
+import { Event } from "../../types/event";
+import { FaPlusCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import React from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
-
-interface Event {
-  description: string;
-  id: string;
-  city: string;
-  adress: string;
-  date: string;
-}
+import { routesDict } from "../../routes";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 export default function EventsView() {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const { user } = useAuthContext();
   const { data, isLoading, error } = useQuery("events", () =>
     axios.get<{ events: Event[] }>("/events")
+  );
+
+  const { mutate: deleteEvent } = useMutation(
+    ({ eventId }: { eventId: string }) => axios.delete(`/events/${eventId}`),
+    {
+      retry: false,
+      onSuccess: () => {
+        queryClient.invalidateQueries("events");
+        toast({
+          title: "Usunięto wydarzenie",
+          status: "success",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Coś poszło nie tak...",
+          description: "Nie udało się usunąć wydarzenia",
+          status: "error",
+        });
+      },
+    }
   );
 
   if (isLoading) return <LoadingIndicator />;
@@ -30,13 +61,22 @@ export default function EventsView() {
       <Heading size="lg" pb="4">
         Wydarzenia
       </Heading>
-      <VStack w="100%" spacing="5">
+      <VStack w="60%" spacing="5">
+        {user?.isAdmin && (
+          <Flex justifyContent="flex-end" w="100%">
+            <Link to={routesDict.main.events.create}>
+              <Button size="sm" leftIcon={<FaPlusCircle />} colorScheme="red">
+                Nowe wydarzenie
+              </Button>
+            </Link>
+          </Flex>
+        )}
         {events.length === 0 && (
           <Text fontSize="lg">Brak wydarzeń w bazie</Text>
         )}
         {events.map((event) => (
           <Box
-            w="60%"
+            w="100%"
             p={4}
             key={event.id}
             borderRadius="md"
@@ -46,13 +86,32 @@ export default function EventsView() {
             bgColor="white"
           >
             <HStack>
-              <Text fontSize="sm" color="gray.900">
-                {event.city}
+              <Text fontSize="md" color="gray.900">
+                {event.city}, {event.address}
               </Text>
-              <Text fontSize="sm" color="gray.900">
-                {event.adress}
-              </Text>
-              <Badge colorScheme="blue">{event.date}</Badge>
+              <Badge colorScheme="blue">
+                {new Date(event.date).toLocaleDateString()}
+              </Badge>
+              <Spacer />
+              {user?.isAdmin && (
+                <div>
+                  <Link to={routesDict.main.events.edit(event.id)}>
+                    <IconButton
+                      variant="ghost"
+                      colorScheme="blue"
+                      aria-label="Edit event"
+                      icon={<EditIcon />}
+                    />
+                  </Link>
+                  <IconButton
+                    variant="ghost"
+                    colorScheme="red"
+                    aria-label="Delete event"
+                    icon={<DeleteIcon />}
+                    onClick={() => deleteEvent({ eventId: event.id })}
+                  />
+                </div>
+              )}
             </HStack>
 
             <Text my="2" fontSize="xl">

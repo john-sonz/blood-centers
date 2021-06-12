@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getRepository } from "typeorm";
 import { Donation } from '../entities/Donation';
+import { User } from '../entities/User';
 
 const router = Router();
 
@@ -33,6 +34,13 @@ router.get("/:id", async (req, res) =>{
 
 router.post("/", async(req, res) => {
     try {
+        const userRepo = getRepository(User);
+        const user = await userRepo.findOne({ id: req.body.donatorId });
+        if(!user) {
+            console.log(user);
+            return res.status(400).json({ error: "User not exists" });
+        }
+
         const donationRepo = getRepository(Donation);
         const donation = donationRepo.create(req.body);
         const result = await donationRepo.save(donation);

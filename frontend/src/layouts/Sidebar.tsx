@@ -33,11 +33,18 @@ function SidebarItem({ children, to }: SidebarItemProps) {
 
 function Content() {
   const { logout } = useAuthContext();
+  const { user } = useAuthContext();
   return (
     <Flex direction="column" justifyContent="space-between" h="100%" py="4">
       <VStack spacing="4">
         <SidebarItem to={routesDict.main.path}>Strona główna</SidebarItem>
         <SidebarItem to={routesDict.main.messages.path}>Wiadomości</SidebarItem>
+        { user?.isAdmin && ( <SidebarItem to={routesDict.main.adminDonations.path}>Donacje</SidebarItem>)}
+        { !user?.isAdmin && ( <SidebarItem to={routesDict.main.donations.path}>Donacje</SidebarItem>)}
+        { user?.isAdmin && ( <SidebarItem to={routesDict.main.adminReceipts.path}>Pobrania krwi</SidebarItem>)}
+        { !user?.isAdmin && ( <SidebarItem to={routesDict.main.receipts.path}>Pobrania krwi</SidebarItem>)}
+        { user?.isAdmin && ( <SidebarItem to={routesDict.main.donations.add}>Dodaj donacje</SidebarItem>)}
+        { user?.isAdmin && ( <SidebarItem to={routesDict.main.receipts.add}>Pobiór krwi</SidebarItem>)}
         <Spacer></Spacer>
       </VStack>
       <Button w="100%" colorScheme="red" onClick={logout}>

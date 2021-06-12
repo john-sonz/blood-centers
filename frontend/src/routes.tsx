@@ -63,6 +63,21 @@ export const routesDict = {
       path: "/main/messages",
       send: (id: string) => `/main/messages/send/${id}`,
     },
+    donations: {
+      path: "/main/donations",
+      add: "/main/donations/addDonation",
+    },
+    receipts: {
+      path: "/main/receipts",
+      add: "/main/receipts/addReceipt",
+      addFromDonation: (id: string) => `/main/receipts/addReceiptFromDonation/${id}`
+    },
+    adminDonations: {
+      path: "/main/adminDonations",
+    },
+    adminReceipts: {
+      path: "/main/adminReceipts",
+    },
   },
 };
 
@@ -94,6 +109,34 @@ export const routes: IRoute[] = [
       {
         path: routesDict.main.path,
         component: lazy(() => import("./views/main/MainView")),
+      },
+      {
+        path: routesDict.main.donations.path,
+        component: lazy(() => import("./views/donations/DonationsView")), 
+      },
+      {
+        path: routesDict.main.receipts.path,
+        component: lazy(() => import("./views/receipts/ReceiptsView")), 
+      },
+      {
+        path: routesDict.main.adminDonations.path,
+        component: lazy(() => import("./views/admin/AdminDonationsView")), 
+      },
+      {
+        path: routesDict.main.adminReceipts.path,
+        component: lazy(() => import("./views/admin/AdminReceiptsView")), 
+      },
+      {
+        path: routesDict.main.donations.add,
+        component: lazy(() => import("./views/donations/AddDonation")), 
+      },
+      {
+        path: routesDict.main.receipts.add,
+        component: lazy(() => import("./views/receipts/AddReceipt")), 
+      },
+      {
+        path: routesDict.main.receipts.addFromDonation(":id"),
+        component: lazy(() => import("./views/receipts/AddReceiptFromDonation")), 
       },
     ],
   },

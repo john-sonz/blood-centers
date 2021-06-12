@@ -46,7 +46,7 @@ router.post("/login", isUnauthorized(), async (req, res) => {
     return res.json({ user: result });
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 

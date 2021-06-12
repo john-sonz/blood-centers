@@ -5,13 +5,13 @@ import isAuthorized from "../middleware/isAuthorized";
 
 const router = Router();
 
-router.get("/", async(_req, res, next) => {
+router.get("/", async (_req, res, next) => {
   try {
     const eventRepo = getRepository(Event);
     const events = await eventRepo.find();
-    res.json({events});
-  } catch(error) {
-      next(error);
+    res.json({ events });
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
@@ -36,7 +36,7 @@ router.post("/", isAuthorized(), async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
@@ -51,7 +51,7 @@ router.put("/:id", isAuthorized(), async (req, res) => {
     return res.json(results);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 
@@ -62,7 +62,7 @@ router.delete("/:id", isAuthorized(), async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.warn(error, req.body);
-    return res.status(500);
+    return res.sendStatus(500);
   }
 });
 

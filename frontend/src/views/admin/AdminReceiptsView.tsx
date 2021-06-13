@@ -19,12 +19,10 @@ export default function AdminReceiptsView() {
     axios.get<{ receipts: Receipt[] }>("/receipts/")  
   );
 
-
     if(isLoading) {
         return <LoadingIndicator />
     }
 
-    console.log(data?.data);
 
     if (error || !data?.data) {
         return <Heading size="lg">Nie udało się pobrać listy pobiorów krwi</Heading>;

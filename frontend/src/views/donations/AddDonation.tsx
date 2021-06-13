@@ -53,38 +53,46 @@ export default function AddDonation() {
     } catch (error: unknown) {
       if (
         axios.isAxiosError(error)
-      )
-      setError("submitError", { message: "Coś poszło nie tak" });
+      ) {
+        setError("submitError", { message: "Nie ma użytkownika o podanym id" });
+      }
+     
     }
   };
 
     return (
           <Container p={6} spacing={4} boxShadow="xl" rounded="md" bg="white">
-            <form onSubmit={handleSubmit(onSubmit, (a) => console.log(a))}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <VStack spacing={4} align="flex-start">
                 <FormControl
                   id="donatorId"
                   isRequired
+                  isInvalid={errors.donatorId}
                 >
                   <FormLabel>Id dawcy</FormLabel>
                   <Input type="text" {...register("donatorId")} autoComplete="off" />
                   <FormErrorMessage>{errors.donatorId?.message}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors.submitError}>
+                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+                </FormControl>
     
                 <FormControl
                   id="amountMl"
                   isRequired
+                  isInvalid={errors.amountMl}
                 >
                   <FormLabel>Ilość oddanej krwi</FormLabel>
-                  <Input type="text" {...register("amountMl")} />
+                  <Input type="number" {...register("amountMl")} />
                 </FormControl>
     
                 <FormControl
                   id="availableMl"
                   isRequired
+                  isInvalid={errors.availableMl}
                 >
                   <FormLabel>Ilość dostępnej krwi</FormLabel>
-                  <Input type="text" {...register("availableMl")} />
+                  <Input type="number" {...register("availableMl")} />
                 </FormControl>
     
                 <Button

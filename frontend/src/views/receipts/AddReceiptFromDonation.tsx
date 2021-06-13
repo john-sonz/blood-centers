@@ -66,28 +66,38 @@ export default function AddReceiptFromDonation() {
                 <FormControl
                   id="recipientId"
                   isRequired
+                  isInvalid={errors.recipientId}
                 >
                   <FormLabel>Id biorcy</FormLabel>
                   <Input type="text" {...register("recipientId")} autoComplete="off" />
                   <FormErrorMessage>{errors.recipientId?.message}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors.submitError}>
+                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+                </FormControl>
 
                 <FormControl
                   id="donationId"
                   isRequired
+                  isInvalid={errors.donationId}
                 >
                   <FormLabel>Id donacji</FormLabel>
-                  <Input type="text" {...register("donationId")} autoComplete="off" value={id} />
+                  <Input type="text" {...register("donationId")} autoComplete="off" value={id} required/>
                   <FormErrorMessage>{errors.donationId?.message}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={errors.submitError}>
+                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
                 </FormControl>
     
                 <FormControl
                   id="amount"
                   isRequired
+                  isInvalid={errors.amount}
                 >
                   <FormLabel>Ilość oddanej krwi</FormLabel>
                   <Input type="text" {...register("amount")} />
                 </FormControl>
+                <FormErrorMessage>{errors.amount?.message}</FormErrorMessage>
     
                 <Button
                   isLoading={isSubmitting}

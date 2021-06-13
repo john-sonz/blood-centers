@@ -12,7 +12,11 @@ interface Donation {
     id: string,
     date: string,
     amountMl: number,
-    availableMl: number,
+    availableMl: number
+}
+
+interface BloodType {
+  bloodType: string
 }
 
 export default function AdminDonationsView() {
@@ -29,6 +33,7 @@ export default function AdminDonationsView() {
 
     const { donations } = data.data;
 
+
     const deleteDonation = async (id:string ) => {
       try {
         await axios.delete(`/donations/${id}`);
@@ -37,6 +42,26 @@ export default function AdminDonationsView() {
         console.log(error);
       }
       return null;
+    }
+
+    var bloodTypeRes = "";
+    var clicked = false;
+
+    const getBloodType = async (id: string) => {
+      try {
+        const res = await axios.get(`/donations/bloodType/${id}`);
+        console.log(res);
+        bloodTypeRes = res.data;
+        console.log(bloodTypeRes);
+        clicked = true;
+        
+       // return bloodTypeRes;
+         return <Text>Udalo sie</Text>;
+      } catch(error){
+        console.log(error);
+      }
+      return null;
+    
     }
 
     return (
@@ -69,6 +94,14 @@ export default function AdminDonationsView() {
                       Usuń donację
                     </Button>
                 </HStack>
+                {/* <Text my="2" fontSize="xl">
+              { "Grupa krwi: " + getBloodType(d.id) }
+
+                </Text> */}
+                <Button colorScheme="green" size="sm" onClick={() => getBloodType(d.id)}>
+                  Grupa krwi {bloodTypeRes}
+                </Button>
+                <Text>{!clicked ? bloodTypeRes : "Nic"}</Text>
 
                 <Text my="2" fontSize="xl">
               { "Dostępna ilość krwi " + d.availableMl }

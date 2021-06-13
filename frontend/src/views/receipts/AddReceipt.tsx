@@ -34,7 +34,8 @@ const schema = yup.object().shape({
     .length(36, "Podane id jest błędne"),
     amount: yup
     .number()
-    .required("Ilość oddanej krwi jest wymagana"),
+    .required("Ilość oddanej krwi jest wymagana")
+    .min(1, "Objętość krwi musi być liczbą dodatnią"),
 });
 
 
@@ -53,8 +54,12 @@ export default function AddReceipt() {
     try {
       await axios.post("/receipts/", data);
 
-    } catch (_) {
-      setError("submitError", { message: "Coś poszło nie tak" });
+    } catch (error:unknown) {
+      if (
+        axios.isAxiosError(error)
+      ) {
+        setError("submitError", { message: "Niepoprawne dane wejściowe" });
+      }
     }
   };
 
@@ -65,28 +70,38 @@ export default function AddReceipt() {
                 <FormControl
                   id="recipientId"
                   isRequired
+                  isInvalid={errors.recipientId}
                 >
                   <FormLabel>Id biorcy</FormLabel>
                   <Input type="text" {...register("recipientId")} autoComplete="off" />
                   <FormErrorMessage>{errors.recipientId?.message}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors.submitError}>
+                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+                </FormControl>
 
                 <FormControl
                   id="donationId"
                   isRequired
+                  isInvalid={errors.donationId}
                 >
                   <FormLabel>Id donacji</FormLabel>
                   <Input type="text" {...register("donationId")} autoComplete="off" />
                   <FormErrorMessage>{errors.donationId?.message}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors.submitError}>
+                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+                </FormControl>
     
                 <FormControl
                   id="amount"
                   isRequired
+                  isInvalid={errors.amount}
                 >
                   <FormLabel>Ilość oddanej krwi</FormLabel>
-                  <Input type="text" {...register("amount")} />
+                  <Input type="number" {...register("amount")} />
                 </FormControl>
+                <FormErrorMessage>{errors.amount?.message}</FormErrorMessage>
     
                 <Button
                   isLoading={isSubmitting}

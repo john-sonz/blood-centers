@@ -331,3 +331,45 @@ W systemie nie rozdzielamy użytkowników na dawców i biorców, gdyż ta sama o
 Zwykły użytkownik (*User*) ma dostęp tylko do informacji na temat swoich donacji, pobrań, wiadomości i przywilejów, oraz do informacji o wydarzeniach.
 
 *Administrator* ma dostęp do wszystkich funkcji zwykłego użytkownika oraz dodatkowo do informacji o wszystkich donacjach i pobraniach w bazie. Może dodawać i usuwać donacje, pobrania, wydarzenia i przywileje.
+
+## Interfejs aplikacji
+
+Główny widok dla zwykłego użytkownika
+
+![Główny widok dla zwykłego użytkownika](./img/main_page_user.png)
+
+Główny widok dla *Administratora*
+
+![Główny widok dla administratora](./img/main_page_admin.png)
+
+Widok przywilejów użytkownika
+
+![Widok przywilejów użytkownika](./img/user_privileges.jpg)
+
+Wiadomości
+
+![Wiadomości](./img/messages.png)
+
+Wydarzenia
+
+![Wydarzenia](./img/events.jpg)
+
+Widok przywilejów dla *Administratora*
+
+![Widok przywilejów dla Administratora](./img/privileges.jpg)
+
+Widok donacji dla *Administratora*
+
+![Widok donacji dla Administratora](./img/donacje_admin.png)
+
+Formularz dodania donacji
+
+![Formularz dodania donacji](./img/form_donacje.png)
+
+Formularz dodania pobrania krwi
+
+![Formularz dodania pobrania krwi](./img/form_pobrania.png)
+
+Widok pobrań krwi dla administratora
+
+![Widok pobrań krwi dla administratora](./img/pobrania_krwi_admin.png)

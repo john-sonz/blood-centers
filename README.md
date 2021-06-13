@@ -82,6 +82,12 @@ npm install
 npm start
 ```
 
+Dane logowania do konta *Administratora* to
+- PESEL: `11111111111`
+- hasło: `admin`
+
+Hasłem do pozostałych kont znajdujących się w bazie danych jest `password`.
+
 ## Struktura projektu
 ```
 .

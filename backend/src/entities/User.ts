@@ -2,12 +2,14 @@ import {
   Column,
   Entity,
   Index,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { IsEnum, IsNumberString, Length } from "class-validator";
 
 import { Donation } from "./Donation";
+import { Event } from "./Event";
 import { Message } from "./Message";
 import { Receipt } from "./Receipt";
 
@@ -101,4 +103,7 @@ export class User {
 
   @OneToMany(() => Receipt, (receipt) => receipt.recipient)
   receipts: Receipt[];
+
+  @ManyToMany(() => Event, (event) => event.interestedUsers)
+  events: Event[];
 }

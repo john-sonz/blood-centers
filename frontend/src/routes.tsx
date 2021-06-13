@@ -7,10 +7,11 @@ import React, {
 } from "react";
 import { Redirect, Route, Switch } from "react-router";
 
+import AdminGuard from "./guards/AdminGuard";
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
+import LoadingIndicator from "./components/LoadingIndicator";
 import MainLayout from "./layouts/MainLayout";
-import SplashScreen from "./components/SplashScreen";
 
 interface IRoute {
   exact?: boolean;
@@ -23,7 +24,7 @@ interface IRoute {
 
 export function renderRoutes(routes: IRoute[] = []): ReactElement {
   return (
-    <Suspense fallback={<SplashScreen />}>
+    <Suspense fallback={<LoadingIndicator />}>
       <Switch>
         {routes.map((route, i) => {
           const Guard = route.guard || Fragment;
@@ -70,13 +71,27 @@ export const routesDict = {
     receipts: {
       path: "/main/receipts",
       add: "/main/receipts/addReceipt",
-      addFromDonation: (id: string) => `/main/receipts/addReceiptFromDonation/${id}`
+      addFromDonation: (id: string) =>
+        `/main/receipts/addReceiptFromDonation/${id}`,
     },
     adminDonations: {
       path: "/main/adminDonations",
     },
     adminReceipts: {
       path: "/main/adminReceipts",
+    },
+    events: {
+      path: "/main/events",
+      create: "/main/events/create",
+      edit: (id: string) => `/main/events/edit/${id}`,
+    },
+    privileges: {
+      path: "/main/privileges",
+      create: "/main/privileges/create",
+      edit: (id: string) => `/main/privileges/edit/${id}`,
+    },
+    myPrivileges: {
+      path: "/main/myPrivileges",
     },
   },
 };
@@ -107,36 +122,76 @@ export const routes: IRoute[] = [
         component: lazy(() => import("./views/messages/SendMessageView")),
       },
       {
+        path: routesDict.main.events.path,
+        component: lazy(() => import("./views/events/EventsView")),
+      },
+      {
+        path: routesDict.main.events.path,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/EventsView")),
+      },
+      {
+        path: routesDict.main.events.create,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/CreateEventView")),
+      },
+      {
+        path: routesDict.main.events.edit(":id"),
+        guard: AdminGuard,
+        component: lazy(() => import("./views/events/EditEventView")),
+      },
+      {
+        path: routesDict.main.myPrivileges.path,
+        component: lazy(() => import("./views/myPrivileges/MyPrivilegesView")),
+      },
+      {
+        path: routesDict.main.privileges.path,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/privileges/PrivilegesView")),
+      },
+      {
+        path: routesDict.main.privileges.create,
+        guard: AdminGuard,
+        component: lazy(() => import("./views/privileges/CreatePrivilegeView")),
+      },
+      {
+        path: routesDict.main.privileges.edit(":id"),
+        guard: AdminGuard,
+        component: lazy(() => import("./views/privileges/EditPrivilegeView")),
+      },
+      {
         path: routesDict.main.path,
         component: lazy(() => import("./views/main/MainView")),
       },
       {
         path: routesDict.main.donations.path,
-        component: lazy(() => import("./views/donations/DonationsView")), 
+        component: lazy(() => import("./views/donations/DonationsView")),
       },
       {
         path: routesDict.main.receipts.path,
-        component: lazy(() => import("./views/receipts/ReceiptsView")), 
+        component: lazy(() => import("./views/receipts/ReceiptsView")),
       },
       {
         path: routesDict.main.adminDonations.path,
-        component: lazy(() => import("./views/admin/AdminDonationsView")), 
+        component: lazy(() => import("./views/admin/AdminDonationsView")),
       },
       {
         path: routesDict.main.adminReceipts.path,
-        component: lazy(() => import("./views/admin/AdminReceiptsView")), 
+        component: lazy(() => import("./views/admin/AdminReceiptsView")),
       },
       {
         path: routesDict.main.donations.add,
-        component: lazy(() => import("./views/donations/AddDonation")), 
+        component: lazy(() => import("./views/donations/AddDonation")),
       },
       {
         path: routesDict.main.receipts.add,
-        component: lazy(() => import("./views/receipts/AddReceipt")), 
+        component: lazy(() => import("./views/receipts/AddReceipt")),
       },
       {
         path: routesDict.main.receipts.addFromDonation(":id"),
-        component: lazy(() => import("./views/receipts/AddReceiptFromDonation")), 
+        component: lazy(
+          () => import("./views/receipts/AddReceiptFromDonation")
+        ),
       },
     ],
   },

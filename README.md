@@ -11,6 +11,7 @@
 - [Struktura projektu](#struktura-projektu)
 - [Struktura bazy danych](#struktura-bazy-danych)
 - [Role](#role)
+- [Interfejs aplikacji](#interfejs-aplikacji)
 
 ## Autorzy
 

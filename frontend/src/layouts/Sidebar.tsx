@@ -43,19 +43,21 @@ function Content() {
             Donacje
           </SidebarItem>
         )}
-        {!user?.isAdmin && (
-          <SidebarItem to={routesDict.main.donations.path}>Donacje</SidebarItem>
-        )}
+
+        <SidebarItem to={routesDict.main.donations.path}>
+          Moje Donacje
+        </SidebarItem>
+
         {user?.isAdmin && (
           <SidebarItem to={routesDict.main.adminReceipts.path}>
             Pobrania krwi
           </SidebarItem>
         )}
-        {!user?.isAdmin && (
-          <SidebarItem to={routesDict.main.receipts.path}>
-            Pobrania krwi
-          </SidebarItem>
-        )}
+
+        <SidebarItem to={routesDict.main.receipts.path}>
+          Moje pobrania krwi
+        </SidebarItem>
+
         {user?.isAdmin && (
           <SidebarItem to={routesDict.main.donations.add}>
             Dodaj donacje
@@ -63,7 +65,7 @@ function Content() {
         )}
         {user?.isAdmin && (
           <SidebarItem to={routesDict.main.receipts.add}>
-            Pobiór krwi
+            Pobranie krwi
           </SidebarItem>
         )}
         <SidebarItem to={routesDict.main.events.path}>Wydarzenia</SidebarItem>

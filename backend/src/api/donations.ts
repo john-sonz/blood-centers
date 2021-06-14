@@ -8,7 +8,13 @@ const router = Router();
 router.get("/", async (_req, res, next) => {
   try {
     const donationRepo = getRepository(Donation);
-    const donations = await donationRepo.find();
+    const donations = await donationRepo
+      .createQueryBuilder("donation")
+      .innerJoin("donation.donator", "donator")
+      .addSelect(["donator.bloodType"])
+      .orderBy("donation.date", "DESC")
+      .getMany();
+
     res.json({ donations });
   } catch (error) {
     next(error);
@@ -72,8 +78,8 @@ router.get("/bloodType/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const dontationRepo = getRepository(Donation);
-    const result = await dontationRepo.delete(req.params.id);
+    const donationRepo = getRepository(Donation);
+    const result = await donationRepo.delete(req.params.id);
     return res.json(result);
   } catch (error) {
     console.warn(error, req.params.id);

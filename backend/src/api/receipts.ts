@@ -9,7 +9,13 @@ const router = Router();
 router.get("/", async (_req, res, next) => {
   try {
     const receiptsRepo = getRepository(Receipt);
-    const receipts = await receiptsRepo.find();
+    const receipts = await receiptsRepo
+      .createQueryBuilder("receipt")
+      .innerJoin("receipt.donation", "donation")
+      .addSelect(["donation.donatorId"])
+      .orderBy("receipt.date", "DESC")
+      .getMany();
+
     res.json(receipts);
   } catch (error) {
     next(error);

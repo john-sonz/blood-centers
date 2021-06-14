@@ -173,22 +173,27 @@ export const routes: IRoute[] = [
       },
       {
         path: routesDict.main.adminDonations.path,
+        guard: AdminGuard,
         component: lazy(() => import("./views/admin/AdminDonationsView")),
       },
       {
         path: routesDict.main.adminReceipts.path,
+        guard: AdminGuard,
         component: lazy(() => import("./views/admin/AdminReceiptsView")),
       },
       {
         path: routesDict.main.donations.add,
+        guard: AdminGuard,
         component: lazy(() => import("./views/donations/AddDonation")),
       },
       {
         path: routesDict.main.receipts.add,
+        guard: AdminGuard,
         component: lazy(() => import("./views/receipts/AddReceipt")),
       },
       {
         path: routesDict.main.receipts.addFromDonation(":id"),
+        guard: AdminGuard,
         component: lazy(
           () => import("./views/receipts/AddReceiptFromDonation")
         ),

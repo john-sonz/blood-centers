@@ -1,9 +1,11 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text, VStack } from "@chakra-ui/react";
 import { HStack, Heading } from "@chakra-ui/layout";
 
 import LoadingIndicator from "../../components/LoadingIndicator";
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
+import { routesDict } from "../../routes";
 import { useQuery } from "react-query";
 
 interface Receipt {
@@ -12,6 +14,9 @@ interface Receipt {
   donationId: string;
   date: string;
   amount: number;
+  donation: {
+    donatorId: string;
+  };
 }
 
 export default function ReceiptsView() {
@@ -26,9 +31,7 @@ export default function ReceiptsView() {
   console.log(data?.data);
 
   if (error || !data?.data) {
-    return (
-      <Heading size="lg">Nie udało się pobrać listy pobiorów krwi</Heading>
-    );
+    return <Heading size="lg">Nie udało się pobrać listy pobrań krwi</Heading>;
   }
 
   if (data.data === undefined) {
@@ -74,12 +77,24 @@ export default function ReceiptsView() {
               {"Data oddania krwi: " + new Date(r.date).toLocaleString()}
             </Text>
 
-            <Text fontSize="sm" color="gray.900" mt={5}>
-              {"Id donacji: " + r.donationId}
-            </Text>
-            <Text fontSize="sm" color="gray.900">
-              {"Id biorcy: " + r.recipientId}
-            </Text>
+            <Flex justifyContent="space-between" alignItems="center">
+              <div>
+                <Text fontSize="sm" color="gray.900" mt={5}>
+                  Id donacji: {r.donationId}
+                </Text>
+                <Text fontSize="sm" color="gray.900">
+                  Id biorcy: {r.recipientId}
+                </Text>
+              </div>
+              <Link
+                as={RouterLink}
+                to={routesDict.main.messages.send(r.donation.donatorId)}
+              >
+                <Button colorScheme="red" size="sm">
+                  Podziękuj dawcy
+                </Button>
+              </Link>
+            </Flex>
           </Box>
         ))}
       </VStack>

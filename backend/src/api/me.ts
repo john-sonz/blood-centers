@@ -40,9 +40,15 @@ router.get("/messages", async (req, res, next) => {
 router.get("/donations", async (req, res, next) => {
   try {
     const { userId } = req.session;
-    const donations = await getRepository(Donation).find({
-      where: { donatorId: userId },
-    });
+
+    const donations = await getRepository(Donation)
+      .createQueryBuilder("donation")
+      .innerJoin("donation.donator", "donator")
+      .where("donator.id = :userId", { userId })
+      .addSelect(["donator.bloodType"])
+      .orderBy("donation.date", "DESC")
+      .getMany();
+
     res.json({ donations });
   } catch (error) {
     next(error);
@@ -100,9 +106,14 @@ router.get("/events", async (req, res, next) => {
 router.get("/receipts", async (req, res, next) => {
   try {
     const { userId } = req.session;
-    const receipts = await getRepository(Receipt).find({
-      where: { recipientId: userId },
-    });
+    const receipts = await getRepository(Receipt)
+      .createQueryBuilder("receipt")
+      .innerJoin("receipt.donation", "donation")
+      .where("receipt.recipientId = :userId", { userId })
+      .addSelect(["donation.donatorId"])
+      .orderBy("receipt.date", "DESC")
+      .getMany();
+
     res.json({ receipts });
   } catch (error) {
     next(error);

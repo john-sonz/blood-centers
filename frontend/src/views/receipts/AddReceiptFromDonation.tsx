@@ -8,116 +8,120 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import React from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
 import axios from "axios";
-
 import { routesDict } from "../../routes";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface ReceiptForm {
-    recipientId: string;
-    donationId: string;
-    amount: number;
+  recipientId: string;
+  donationId: string;
+  amount: number;
 }
 
 const schema = yup.object().shape({
-    recipientId: yup
+  recipientId: yup
     .string()
     .required("Id biorcy jest wymagane")
     .length(36, "Podane id jest błędne"),
-    donationId: yup
+  donationId: yup
     .string()
     .required("Id donacji jest wymagane")
     .length(36, "Podane id jest błędne"),
-    amount: yup
-    .number()
-    .required("Ilość oddanej krwi jest wymagana"),
+  amount: yup.number().required("Ilość oddanej krwi jest wymagana"),
 });
 
-
 export default function AddReceiptFromDonation() {
-    const { id } = useParams<{id: string }>();
-    const {
-      handleSubmit,
-      register,
-      setError,
-      formState: { errors, isSubmitting },
-    } = useForm<ReceiptForm & { submitError: string }>({
-      resolver: yupResolver(schema),
-    });
+  const { id } = useParams<{ id: string }>();
+  const {
+    handleSubmit,
+    register,
+    setError,
+    formState: { errors, isSubmitting, touchedFields },
+  } = useForm<ReceiptForm & { submitError: string }>({
+    resolver: yupResolver(schema),
+  });
 
-    
   const onSubmit: SubmitHandler<ReceiptForm> = async (data) => {
     try {
       await axios.post("/receipts/", data);
-
     } catch (_) {
       setError("submitError", { message: "Coś poszło nie tak" });
     }
   };
 
-    return (
-          <Container p={6} spacing={4} boxShadow="xl" rounded="md" bg="white">
-            <form onSubmit={handleSubmit(onSubmit, (a) => console.log(a))}>
-              <VStack spacing={4} align="flex-start">
-                <FormControl
-                  id="recipientId"
-                  isRequired
-                  isInvalid={errors.recipientId}
-                >
-                  <FormLabel>Id biorcy</FormLabel>
-                  <Input type="text" {...register("recipientId")} autoComplete="off" />
-                  <FormErrorMessage>{errors.recipientId?.message}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.submitError}>
-                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
-                </FormControl>
+  return (
+    <Container p={6} spacing={4} boxShadow="xl" rounded="md" bg="white">
+      <form onSubmit={handleSubmit(onSubmit, (a) => console.log(a))}>
+        <VStack spacing={4} align="flex-start">
+          <FormControl
+            id="recipientId"
+            isRequired
+            isInvalid={errors.recipientId && touchedFields.recipientId}
+          >
+            <FormLabel>Id biorcy</FormLabel>
+            <Input
+              type="text"
+              {...register("recipientId")}
+              autoComplete="off"
+            />
+            <FormErrorMessage>{errors.recipientId?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.submitError}>
+            <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+          </FormControl>
 
-                <FormControl
-                  id="donationId"
-                  isRequired
-                  isInvalid={errors.donationId}
-                >
-                  <FormLabel>Id donacji</FormLabel>
-                  <Input type="text" {...register("donationId")} autoComplete="off" value={id} required/>
-                  <FormErrorMessage>{errors.donationId?.message}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.submitError}>
-                <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
-                </FormControl>
-    
-                <FormControl
-                  id="amount"
-                  isRequired
-                  isInvalid={errors.amount}
-                >
-                  <FormLabel>Ilość oddanej krwi</FormLabel>
-                  <Input type="text" {...register("amount")} />
-                </FormControl>
-                <FormErrorMessage>{errors.amount?.message}</FormErrorMessage>
-    
-                <Button
-                  isLoading={isSubmitting}
-                  bgColor="blue.500"
-                  color="white"
-                  width="100%"
-                  _hover={{
-                    bgColor: "blue.300",
-                  }}
-                  type="submit"
-                >
-                  Dodaj pobranie krwi
-                </Button>
-              </VStack>
-            </form>
-            <Box mt="2">
-              <Link as={RouterLink} to={routesDict.main.adminReceipts.path} color="blue.500">
-                Zobacz inne pobrania krwi
-              </Link>
-            </Box>
-          </Container>
-      );
+          <FormControl
+            id="donationId"
+            isRequired
+            isInvalid={errors.donationId && touchedFields.donationId}
+          >
+            <FormLabel>Id donacji</FormLabel>
+            <Input
+              type="text"
+              {...register("donationId")}
+              autoComplete="off"
+              value={id}
+              required
+            />
+            <FormErrorMessage>{errors.donationId?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.submitError}>
+            <FormErrorMessage>{errors.submitError?.message}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl id="amount" isRequired isInvalid={!!errors.amount}>
+            <FormLabel>Ilość oddanej krwi</FormLabel>
+            <Input type="text" {...register("amount")} />
+          </FormControl>
+          <FormErrorMessage>{errors.amount?.message}</FormErrorMessage>
+
+          <Button
+            isLoading={isSubmitting}
+            bgColor="blue.500"
+            color="white"
+            width="100%"
+            _hover={{
+              bgColor: "blue.300",
+            }}
+            type="submit"
+          >
+            Dodaj pobranie krwi
+          </Button>
+        </VStack>
+      </form>
+      <Box mt="2">
+        <Link
+          as={RouterLink}
+          to={routesDict.main.adminReceipts.path}
+          color="blue.500"
+        >
+          Zobacz inne pobrania krwi
+        </Link>
+      </Box>
+    </Container>
+  );
 }

@@ -1,23 +1,25 @@
 import { Badge, HStack, Heading } from "@chakra-ui/layout";
-import { Box, Button, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 import LoadingIndicator from "../../components/LoadingIndicator";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
-import { routesDict } from "../../routes";
+import humanReadableBloodType from "../../utils/humanReadableBloodType";
 import { useQuery } from "react-query";
 
-interface Donation {
+interface DonationResponse {
   id: string;
   date: string;
   amountMl: number;
   availableMl: number;
+  donator: {
+    bloodType: string;
+  };
 }
 
 export default function DonationsView() {
   const { data, isLoading, error } = useQuery("myDonations", () =>
-    axios.get<{ donations: Donation[] }>("me/donations")
+    axios.get<{ donations: DonationResponse[] }>("/me/donations")
   );
 
   if (isLoading) {
@@ -54,6 +56,9 @@ export default function DonationsView() {
                 {d.id}
               </Text>
               {renderElement(d.availableMl, d.date)}
+              <Badge colorScheme="green">
+                {humanReadableBloodType(d.donator.bloodType)}
+              </Badge>
             </HStack>
 
             <Text my="2" fontSize="xl">

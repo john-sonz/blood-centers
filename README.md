@@ -60,7 +60,7 @@ Aby uruchomić backend wraz z bazą danych należy wykonać następujące polece
 
 ```bash
 git clone https://github.com/john-sonz/blood-centers.git
-cd blood-centers/backend && npm install
+cd blood-centers/backend && npm update && npm install
 cd .. && docker-compose up
 ```
 
@@ -79,7 +79,7 @@ Aby uruchomić aplikację frontendową, należy najpierw uruchomić backend a na
 
 ```bash
 # w katalogu frontend
-npm install
+npm update && npm install
 npm start
 ```
 
